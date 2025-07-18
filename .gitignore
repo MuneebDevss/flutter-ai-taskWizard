@@ -1,0 +1,83 @@
+* text=auto eol=lf
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+*.tmp
+.DS_Store
+Thumbs.db
+
+# Version control & build systems
+.atom/
+.build/
+.buildlog/
+.history
+.svn/
+.swiftpm/
+migrate_working_dir/
+
+# Flutter & Dart
+.dart_tool/
+.packages
+.flutter-plugins
+.flutter-plugins-dependencies
+.metadata
+.pub-cache/
+.pub/
+build/
+**/doc/api/
+**/ios/Flutter/.last_build_id
+
+# Android
+android/.gradle/
+android/captures/
+android/.idea/
+android/local.properties
+android/app/debug
+android/app/profile
+android/app/release
+*.jks
+
+# iOS
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/.symlinks/
+ios/Pods/
+ios/Runner.xcworkspace/
+ios/DerivedData/
+ios/.generated/
+
+# Firebase
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
+firebase.json
+lib/firebase_options.dart
+
+# Isar DB (generated & schema)
+lib/**/*.isar.dart
+isar_schema.json
+
+# API Keys / Sensitive Config
+.env
+.env.*
+*.key
+*.pem
+*.crt
+# IDEs
+# IntelliJ / Android Studio
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# VS Code
+.vscode/
+
+# Symbolication / Obfuscation
+app.*.symbols
+app.*.map.json
+
+# Test & Coverage
+coverage/
+test/**/mock_*.dart
