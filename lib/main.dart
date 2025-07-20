@@ -1,9 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task_wizard/Features/Auth/Presentation/AuthBloc/auth_bloc.dart';
 import 'package:task_wizard/Features/Auth/Presentation/email_verification.dart';
 import 'package:task_wizard/Features/Auth/Presentation/login_page.dart';
+import 'package:task_wizard/Features/Chatbot/Presentation/Screens/chatbot_screen.dart';
 import 'package:task_wizard/Features/CreateTask/Presentation/CreateTaskBlocs/create_task_bloc.dart';
 import 'package:task_wizard/Features/Landing/Presentation/FetchTaskBlocs/fetch_task_bloc.dart';
 import 'package:task_wizard/Features/Landing/Presentation/Screens/landing_page.dart';
@@ -31,7 +31,8 @@ Future<void> main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-  static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  static final GlobalKey<NavigatorState> navigatorKey =
+      GlobalKey<NavigatorState>();
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -44,14 +45,12 @@ class MyApp extends StatelessWidget {
       onGenerateRoute: (settings) {
         switch (settings.name) {
           case '/':
-            return MaterialPageRoute(builder: (context) =>
-                LandingPage()
+            return MaterialPageRoute(builder: (context) => LandingPage());
+          case '/profile':
+            final userId = settings.arguments as String;
+            return MaterialPageRoute(
+              builder: (context) => ProfilePage(userId: userId),
             );
-            case '/profile':
-      final userId = settings.arguments as String;
-      return MaterialPageRoute(
-        builder: (context) => ProfilePage(userId: userId),
-      );
           // case '/notification-page':
           //   return MaterialPageRoute(builder: (context) {
           //     final ReceivedAction receivedAction = settings
@@ -67,7 +66,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/home': (context) => const LandingPage(),
         '/calendar': (context) => const TaskScheduleScreen(),
-        '/chat': (context) => const LandingPage(),
+        '/Chatbot': (context) => const ChatbotScreen(),
         // '/profile': (context) => const ProfilePage(userId: '',),
       },
       home: Scaffold(

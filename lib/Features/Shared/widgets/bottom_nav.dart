@@ -5,17 +5,14 @@ import 'package:task_wizard/bindings.dart';
 
 void _handleNavigation(BuildContext context, int index) {
   final routes = [
-    '/home',     // 0 - Home
+    '/home', // 0 - Home
     '/calendar', // 1 - Calendar
-    '/chatbot',     // 2 - Chat
-    '/profile',  // 3 - Profile
+    '/Chatbot', // 2 - Chat
+    '/profile', // 3 - Profile
   ];
-  final bindingsMap = {
-  '/chatbot': ChatbotBinding(),
-  
-};
+  final bindingsMap = {'/Chatbot': ChatbotBinding()};
   if (index < routes.length) {
-    if (bindingsMap.containsKey(routes[index]) ) {
+    if (bindingsMap.containsKey(routes[index])) {
       // Manually initialize the binding
       ChatbotBinding().dependencies();
     }
@@ -37,14 +34,13 @@ void _handleNavigation(BuildContext context, int index) {
   }
 }
 
-
 // Navigate to the selected page
 
 // Alternative version with floating action button style for active item
 class CustomBottomNavBarFloating extends StatelessWidget {
-  final int currentPage;
 
   const CustomBottomNavBarFloating({super.key, required this.currentPage});
+  final int currentPage;
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +73,7 @@ class CustomBottomNavBarFloating extends StatelessWidget {
             2,
             Icons.chat_bubble_outline,
             Icons.chat_bubble,
-            'chatbot',
+            'Chatbot',
             context,
           ),
           _buildNavItem(

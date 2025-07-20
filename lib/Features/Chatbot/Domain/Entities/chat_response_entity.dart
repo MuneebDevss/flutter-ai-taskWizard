@@ -1,13 +1,6 @@
 import 'package:task_wizard/Features/Chatbot/Domain/Entities/response_data_entity.dart';
 
 class ChatbotResponse {
-  final bool success;
-  final String message;
-  final List<TaskData> tasks;
-  final DateTime timestamp;
-  final String action;
-  final List<String> suggestions;
-
   ChatbotResponse({
     required this.success,
     required this.message,
@@ -16,13 +9,11 @@ class ChatbotResponse {
     required this.action,
     required this.suggestions,
   });
-
   factory ChatbotResponse.fromJson(Map<String, dynamic> json) {
     List<TaskData> taskList = [];
     if (json['data'] != null) {
-      taskList = (json['data'] as List)
-          .map((item) => TaskData.fromList(item))
-          .toList();
+      final dataMap = json['data'] as Map<String, dynamic>;
+      taskList = dataMap.values.map((item) => TaskData.fromList(item)).toList();
     }
 
     return ChatbotResponse(
@@ -34,4 +25,10 @@ class ChatbotResponse {
       suggestions: List<String>.from(json['suggestions'] ?? []),
     );
   }
+  final bool success;
+  final String message;
+  final List<TaskData> tasks;
+  final DateTime timestamp;
+  final String action;
+  final List<String> suggestions;
 }

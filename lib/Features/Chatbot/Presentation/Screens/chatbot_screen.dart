@@ -1,28 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:task_wizard/Features/Chatbot/Domain/Entities/chat_message_entity.dart';
-import '../Controllers/chatbot_controllers.dart';
+import 'package:task_wizard/Features/Chatbot/Presentation/Controllers/Chatbot_controllers.dart';
+import 'package:task_wizard/Features/Shared/Constants/Theme/my_colors.dart';
+import 'package:task_wizard/Features/Shared/Constants/app_sizes.dart';
+import 'package:task_wizard/Features/Shared/widgets/bottom_nav.dart';
 
-class ChatbotScreen extends StatelessWidget {
-  final ChatbotController controller = Get.put(ChatbotController());
+class ChatbotScreen extends StatefulWidget {
+  const ChatbotScreen({super.key});
 
-  ChatbotScreen({super.key});
+  @override
+  State<ChatbotScreen> createState() => _ChatbotScreenState();
+}
+
+class _ChatbotScreenState extends State<ChatbotScreen> {
+  final ChatbotController controller = Get.find<ChatbotController>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('AI Assistant'),
+        title: const Text('AI Assistant'),
         backgroundColor: Colors.blue,
-        foregroundColor: Colors.white,
       ),
+      bottomNavigationBar: const CustomBottomNavBarFloating(currentPage: 2),
       body: Column(
         children: [
           Expanded(
             child: Obx(
               () => ListView.builder(
                 reverse: true,
-                padding: EdgeInsets.all(16),
+                padding: const EdgeInsets.all(16),
                 itemCount:
                     controller.messages.length +
                     (controller.isTyping.value ? 1 : 0),
@@ -49,24 +57,21 @@ class ChatbotScreen extends StatelessWidget {
 
   Widget _buildMessageBubble(ChatMessage message) {
     return Container(
-      margin: EdgeInsets.only(bottom: 16),
+      margin: const EdgeInsets.only(bottom: 16),
       child: Column(
         crossAxisAlignment:
             message.isUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: [
           Container(
-            constraints: BoxConstraints(maxWidth: 300),
-            padding: EdgeInsets.all(12),
+            constraints: const BoxConstraints(maxWidth: 300),
+            padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: message.isUser ? Colors.blue : Colors.grey[300],
+              color: message.isUser ? Colors.blue : MYColors.bgGreenColor,
               borderRadius: BorderRadius.circular(16),
             ),
             child: Text(
               message.message,
-              style: TextStyle(
-                color: message.isUser ? Colors.white : Colors.black87,
-                fontSize: 16,
-              ),
+              style: const TextStyle(color: Colors.black87, fontSize: 16),
             ),
           ),
           if (!message.isUser && message.suggestions != null)
@@ -78,44 +83,55 @@ class ChatbotScreen extends StatelessWidget {
 
   Widget _buildSuggestions(List<String> suggestions) {
     return Container(
-      margin: EdgeInsets.only(top: 8),
-      height: 40,
-      child: ListView.builder(
+      height: 48,
+      margin: const EdgeInsets.symmetric(vertical: 12),
+      child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
-        itemCount: suggestions.length,
-        itemBuilder: (context, index) {
-          return Container(
-            margin: EdgeInsets.only(right: 8),
-            child: ElevatedButton(
-              onPressed:
-                  () => controller.onSuggestionTap(context, suggestions[index]),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue[50],
-                foregroundColor: Colors.blue,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-              ),
-              child: Text(suggestions[index]),
-            ),
-          );
-        },
+        child: Row(
+          children:
+              suggestions.map((suggestion) {
+                return Padding(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: ElevatedButton(
+                    onPressed:
+                        () => controller.onSuggestionTap(context, suggestion),
+                    style: ElevatedButton.styleFrom(
+                      shape: const StadiumBorder(),
+                      backgroundColor: Colors.blue.shade50,
+                      foregroundColor: Colors.blue.shade800,
+                      elevation: 0,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 12,
+                      ),
+                    ),
+                    child: Text(
+                      suggestion,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: Colors.blue.shade800,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                );
+              }).toList(),
+        ),
       ),
     );
   }
 
   Widget _buildTypingIndicator() {
     return Container(
-      margin: EdgeInsets.only(bottom: 16),
+      margin: const EdgeInsets.only(bottom: 16),
       child: Row(
         children: [
           Container(
-            padding: EdgeInsets.all(12),
+            padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
               color: Colors.grey[300],
               borderRadius: BorderRadius.circular(16),
             ),
-            child: Row(
+            child: const Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 SizedBox(
@@ -140,14 +156,13 @@ class ChatbotScreen extends StatelessWidget {
     return Builder(
       builder:
           (context) => Container(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: Colors.white,
               boxShadow: [
                 BoxShadow(
                   color: Colors.grey.withOpacity(0.3),
                   blurRadius: 4,
-                  offset: Offset(0, -2),
+                  offset: const Offset(0, -2),
                 ),
               ],
             ),
@@ -161,7 +176,7 @@ class ChatbotScreen extends StatelessWidget {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(24),
                       ),
-                      contentPadding: EdgeInsets.symmetric(
+                      contentPadding: const EdgeInsets.symmetric(
                         horizontal: 16,
                         vertical: 12,
                       ),
@@ -171,7 +186,7 @@ class ChatbotScreen extends StatelessWidget {
                     },
                   ),
                 ),
-                SizedBox(width: 8),
+                const SizedBox(width: 8),
                 Obx(
                   () => FloatingActionButton(
                     onPressed:
@@ -182,18 +197,15 @@ class ChatbotScreen extends StatelessWidget {
                               context,
                             ),
                     backgroundColor: Colors.blue,
-                    foregroundColor: Colors.white,
+
                     child:
                         controller.isLoading.value
-                            ? SizedBox(
+                            ? const SizedBox(
                               width: 20,
                               height: 20,
-                              child: CircularProgressIndicator(
-                                color: Colors.white,
-                                strokeWidth: 2,
-                              ),
+                              child: CircularProgressIndicator(strokeWidth: 2),
                             )
-                            : Icon(Icons.send),
+                            : const Icon(Icons.send),
                   ),
                 ),
               ],

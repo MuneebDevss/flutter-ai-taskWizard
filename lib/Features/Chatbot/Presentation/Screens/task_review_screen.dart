@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../Controllers/chatbot_controllers.dart';
-import '../../Domain/Entities/response_data_entity.dart';
+import 'package:task_wizard/Features/Chatbot/Presentation/Controllers/chatbot_controllers.dart';
+import 'package:task_wizard/Features/Chatbot/Domain/Entities/response_data_entity.dart';
 
 class TaskReviewScreen extends StatelessWidget {
+  const TaskReviewScreen({super.key, required this.tasks});
   final List<TaskData> tasks;
-
-  const TaskReviewScreen({Key? key, required this.tasks}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +13,7 @@ class TaskReviewScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Review Tasks'),
+        title: const Text('Review Tasks'),
         backgroundColor: Colors.blue,
         foregroundColor: Colors.white,
       ),
@@ -22,25 +21,25 @@ class TaskReviewScreen extends StatelessWidget {
         children: [
           Expanded(
             child: ListView.builder(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               itemCount: tasks.length,
               itemBuilder: (context, index) {
                 final task = tasks[index];
                 return Card(
-                  margin: EdgeInsets.only(bottom: 16),
+                  margin: const EdgeInsets.only(bottom: 16),
                   child: Padding(
-                    padding: EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(16),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           task.title,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         Text(
                           task.description,
                           style: TextStyle(
@@ -48,25 +47,25 @@ class TaskReviewScreen extends StatelessWidget {
                             color: Colors.grey[600],
                           ),
                         ),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         Row(
                           children: [
-                            Icon(Icons.date_range, size: 16),
-                            SizedBox(width: 4),
+                            const Icon(Icons.date_range, size: 16),
+                            const SizedBox(width: 4),
                             Text(
                               '${task.startDate.day}/${task.startDate.month}/${task.startDate.year} - ${task.endDate.day}/${task.endDate.month}/${task.endDate.year}',
-                              style: TextStyle(fontSize: 12),
+                              style: const TextStyle(fontSize: 12),
                             ),
                           ],
                         ),
-                        SizedBox(height: 4),
+                        const SizedBox(height: 4),
                         Row(
                           children: [
-                            Icon(Icons.repeat, size: 16),
-                            SizedBox(width: 4),
+                            const Icon(Icons.repeat, size: 16),
+                            const SizedBox(width: 4),
                             Text(
                               task.recurrence,
-                              style: TextStyle(fontSize: 12),
+                              style: const TextStyle(fontSize: 12),
                             ),
                           ],
                         ),
@@ -78,7 +77,7 @@ class TaskReviewScreen extends StatelessWidget {
             ),
           ),
           Container(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             child: Row(
               children: [
                 Expanded(
@@ -89,24 +88,27 @@ class TaskReviewScreen extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.grey,
                       foregroundColor: Colors.white,
-                      padding: EdgeInsets.symmetric(vertical: 16),
+                      padding: const EdgeInsets.symmetric(vertical: 16),
                     ),
-                    child: Text('Cancel'),
+                    child: const Text('Cancel'),
                   ),
                 ),
-                SizedBox(width: 16),
+                const SizedBox(width: 16),
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {
-                      controller.saveTasksToFirebase(context,tasks);
+                      controller.saveTasksToFirebase(
+                        context,
+                        List<TaskData>.from(tasks),
+                      );
                       Get.back();
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue,
                       foregroundColor: Colors.white,
-                      padding: EdgeInsets.symmetric(vertical: 16),
+                      padding: const EdgeInsets.symmetric(vertical: 16),
                     ),
-                    child: Text('Accept Tasks'),
+                    child: const Text('Accept Tasks'),
                   ),
                 ),
               ],

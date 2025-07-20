@@ -6,6 +6,8 @@ import 'package:task_wizard/Features/Chatbot/Domain/Entities/chat_message_entity
 import 'package:task_wizard/Features/Chatbot/Domain/Entities/chat_req_entity.dart';
 import 'package:task_wizard/Features/Chatbot/Domain/Entities/response_data_entity.dart'
     show TaskData;
+// import 'package:task_wizard/Features/Chatbot/Domain/Entities/response_data_entity.dart'
+//     show TaskData;
 import 'package:task_wizard/Features/Chatbot/Domain/Repositories/chat_repo.dart';
 import 'package:task_wizard/Features/Chatbot/Presentation/Screens/task_review_screen.dart';
 import 'package:task_wizard/Features/CreateTask/Domain/task_repos.dart';
@@ -24,11 +26,12 @@ class ChatbotController extends GetxController {
   final RxBool isTyping = false.obs;
   final TextEditingController messageController = TextEditingController();
 
-  final String userId = "user_123"; // Replace with actual user ID
+  late final String userId; // Replace with actual user ID
 
   @override
   void onInit() {
     super.onInit();
+    userId = HelpingFunctions.getCurrentUser()?.uid ?? '';
     _addWelcomeMessage();
   }
 
@@ -42,10 +45,10 @@ class ChatbotController extends GetxController {
     final welcomeMessage = ChatMessage.bot(
       message: "Hello! I'm your AI assistant. How can I help you today?",
       suggestions: [
-        "Create a daily task",
-        "Schedule a meeting",
-        "Set a reminder",
-        "Plan my week",
+        'Create a daily task',
+        'Schedule a meeting',
+        'Set a reminder',
+        'Plan my week',
       ],
     );
     messages.add(welcomeMessage);
@@ -79,16 +82,19 @@ class ChatbotController extends GetxController {
       messages.add(botMessage);
 
       // Handle create_task action
-      if (response.action == "create_task" && response.tasks.isNotEmpty) {
+      if (response.action == 'create_task' && response.tasks.isNotEmpty) {
         _handleCreateTaskAction(context, response.tasks);
       }
     } catch (e) {
       final errorMessage = ChatMessage.bot(
-        message: "Sorry, I encountered an error. Please try again.",
-        suggestions: ["Try again", "Contact support"],
+        message: 'Sorry, I encountered an error. Please try again.',
+        suggestions: ['Try again', 'Contact support'],
       );
       messages.add(errorMessage);
-      HelpingFunctions.showRejectedStateSnackbar(context, message);
+      HelpingFunctions.showRejectedStateSnackbar(
+        context,
+        message + e.toString(),
+      );
     } finally {
       isLoading.value = false;
       isTyping.value = false;
@@ -97,10 +103,7 @@ class ChatbotController extends GetxController {
 
   void _handleCreateTaskAction(BuildContext context, List<TaskData> tasks) {
     if (context.mounted) {
-      HelpingFunctions.pushOnePage(
-        context,
-        TaskReviewScreen(tasks: tasks),
-      );
+      HelpingFunctions.pushOnePage(context, TaskReviewScreen(tasks: tasks));
     }
   }
 

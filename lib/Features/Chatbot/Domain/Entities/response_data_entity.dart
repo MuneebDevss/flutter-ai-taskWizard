@@ -1,18 +1,12 @@
 class TaskData {
-  final String title;
-  final String description;
-  final String dateRange;
-  final String recurrence;
-  final String? priority;
-  final String? category;
 
   TaskData({
     required this.title,
     required this.description,
     required this.dateRange,
     required this.recurrence,
-    this.priority,
-    this.category,
+    required this.priority,
+    required this.category,
   });
 
   factory TaskData.fromList(List<dynamic> data) {
@@ -25,6 +19,12 @@ class TaskData {
       category: data.length > 5 ? data[5] as String? : null,
     );
   }
+  final String title;
+  final String description;
+  final String dateRange;
+  final String recurrence;
+  final String? priority;
+  final String? category;
 
   DateTime get startDate {
     final dates = dateRange.split(':');

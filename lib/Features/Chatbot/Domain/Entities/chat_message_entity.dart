@@ -1,13 +1,6 @@
 import 'package:task_wizard/Features/Chatbot/Domain/Entities/response_data_entity.dart';
 
 class ChatMessage {
-  final String id;
-  final String message;
-  final bool isUser;
-  final DateTime timestamp;
-  final String? action;
-  final List<String>? suggestions;
-  final List<TaskData>? tasks;
 
   ChatMessage({
     required this.id,
@@ -27,7 +20,6 @@ class ChatMessage {
       timestamp: DateTime.now(),
     );
   }
-
   factory ChatMessage.bot({
     required String message,
     String? action,
@@ -44,4 +36,12 @@ class ChatMessage {
       tasks: tasks,
     );
   }
+  final String id;
+  final String message;
+  final bool isUser;
+  final DateTime timestamp;
+  final String? action;
+  final List<String>? suggestions;
+  final List<TaskData>? tasks;
+
 }
