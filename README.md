@@ -22,5 +22,5 @@ A smart task management app built with Flutter that helps you stay productive by
 
 1. **Clone the repo**
    ```bash
-   git clone https://github.com/your-username/ai-task-manager.git
-   cd ai-task-manager
+   git clone https://github.com/MuneebDevss/flutter-ai-taskWizard.git
+   cd flutter-ai-taskWizard
